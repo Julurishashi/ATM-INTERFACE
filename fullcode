@@ -1,0 +1,164 @@
+//main.java
+import java.util.Scanner;
+
+public class Main{
+    //AtmOperationInter opp =new  Atmoperation() ;
+    public static void main(String[] args) {
+        AtmOperationInter opp =new  Atmoperation() ;
+        int atmnumber=261123;
+        int atmpin=54321;
+        Scanner in = new Scanner(System.in);
+        System.out.println("Welcome to JK ATM Machine!!!");
+        System.out.print("Enter ATM Number : ");
+        int atmNumber=in.nextInt();
+        System.out.print("Enter ATM pin:");
+        int pin=in.nextInt();
+        if((atmnumber == atmNumber)&&(atmpin==pin)){
+            System.out.println("Validation Done");
+            while (true){
+                System.out.println("1.view available Balance \n 2.Withdraw Amount \n 3.Deposit Amount\n 4.View Statement \n 5.Exit");
+                System.out.println("Enter Choice:");
+                int ch=in.nextInt();
+                if(ch==1){
+                    opp.viewBalance();
+
+                }
+                else if(ch==2){
+                    System.out.println("Enter  Amount to withdraw");
+                    double  withdrawAmount=in.nextDouble();
+                    opp.withdrawAmount(withdrawAmount);
+
+                }
+                else if(ch==3){
+                    System.out.println("enter Amount to DEposit :");
+                    double depositAmount=in.nextDouble();
+                    opp.depositAmount(depositAmount);
+
+                }
+                else if(ch==4){
+                    opp.viewMiniStatement();
+
+                }
+                else if(ch==5){
+                    System.out.println("Collect your ATM CARD!\n THANKYOU FOR USING JKSERVICES  ");
+                    System.exit(0);
+                }
+                else {
+                    System.out.println("please enter correct choice or Try Again");
+                }
+            }
+        }
+        else {
+            System.out.println("Incorrect ATM number or ATM pin!!");
+            System.exit(0);
+        }
+
+    }
+}
+
+//-------- variable getter and setter
+ATM.java
+public class ATM {
+
+    private double balance;
+    private double depositAmount;
+    private double withdrawAmount;
+    //default constructor
+    public ATM() {
+
+    }
+    //getter setter
+
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public double getDepositAmount() {
+        return depositAmount;
+    }
+
+    public void setDepositAmount(double depositAmount) {
+        this.depositAmount = depositAmount;
+    }
+
+    public double getWithdrawAmount() {
+        return withdrawAmount;
+    }
+
+    public void setWithdrawAmount(double withdrawAmount) {
+        this.withdrawAmount = withdrawAmount;
+    }
+}
+
+
+//-----------interface operations--------
+ATMOPERATORINTERFACE.JAVA
+
+public interface AtmOperationInter {
+    public void viewBalance();
+    public void withdrawAmount(double withdrawAmount);
+    public void depositAmount(double depositAmount);
+    public void viewMiniStatement();
+
+}
+
+//------- operations classs
+
+atmoperator.java
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Atmoperation implements AtmOperationInter{
+     ATM atm = new ATM();
+     Map<Double,String>ministmt= new HashMap<>();
+    @Override
+    public void viewBalance() {
+        System.out.println("Available Balance :"+atm.getBalance());
+
+    }
+
+    @Override
+    public void withdrawAmount(double withdrawAmount) {
+       if(withdrawAmount<=atm.getBalance()) {
+           ministmt.put(withdrawAmount,"Amount Withdrawn");
+           System.out.println(withdrawAmount+"Collect the cash!!!");
+           atm.setBalance(atm.getBalance()-withdrawAmount);
+           viewBalance();
+
+       }
+       else{
+           System.out.println("insufficient Balance");
+       }
+    }
+
+    @Override
+    public void depositAmount(double depositAmount) {
+        ministmt.put(depositAmount,"amount deposited");
+        System.out.println(depositAmount+"$" + "Deposited Successfully");
+        atm.setBalance(atm.getBalance()+depositAmount);
+        viewBalance();
+
+    }
+
+    @Override
+    public void viewMiniStatement() {
+        for(Map.Entry<Double,String>m:ministmt.entrySet()){
+            System.out.println(m.getKey()+""+m.getValue());
+        }
+
+    }
+}
+
+// END OF CODE
+
+
+
+
+
+
